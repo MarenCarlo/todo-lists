@@ -123,10 +123,17 @@ export default function ProtectedRoutesNavigation() {
                             <Routes>
                                 <Route path="*" element={<CurrentRoute />} />
                             </Routes>
-                            <Tabs value={currentTab} centered>
-                                <Tab label="Home" value="/Home" to="/Home" component={Link} />
-                                <Tab label="Home2" value="/Home2" to="/Home2" component={Link} />
-                            </Tabs>
+                            {
+                                userData.isAdmin ?
+                                    <Tabs value={currentTab} centered>
+                                        <Tab label="To Do" value="/Home" to="/Home" component={Link} />
+                                        <Tab label="Listas de Usuarios" value="/Home2" to="/Home2" component={Link} />
+                                    </Tabs>
+                                    :
+                                    <Tabs value={currentTab} centered>
+                                        <Tab label="To Do" value="/Home" to="/Home" component={Link} />
+                                    </Tabs>
+                            }
                         </Box>
                     </AppBar>
                     <Toolbar />
