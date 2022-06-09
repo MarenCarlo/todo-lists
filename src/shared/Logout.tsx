@@ -14,6 +14,6 @@ export const Logout_Clear_States = async (setAdmin: any, setLogged: any, setUser
         isAdmin: false
     })
     await setLoginErrors({
-        message: 'Sesion cerrada correctamente!'
+        message: ''
     });
 }
