@@ -13,8 +13,8 @@ export const Theme = createTheme({
             dark: '#555555',
         },
         secondary: {
-            main: 'rgba(220,10,84,0.94)',
-            contrastText: '#f1fffa',
+            main: '#000',
+            contrastText: '#FFF',
             dark: '#b70042',
             light: '#e23974',
         },
