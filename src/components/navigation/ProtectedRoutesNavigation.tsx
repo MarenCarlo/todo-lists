@@ -71,9 +71,16 @@ export default function ProtectedRoutesNavigation() {
                             <Container maxWidth="xl">
                                 <Grid container direction="row" justifyContent="space-between" alignItems="baseline">
                                     <Grid item>
-                                        <Typography component="h1" variant="h6" sx={{ mt: 2 }}>
-                                            {userData.name}
-                                        </Typography>
+                                        {
+                                            userData.isAdmin ?
+                                                <Typography component="h1" variant="h6" sx={{ mt: 2 }}>
+                                                    {userData.name} (Admin)
+                                                </Typography>
+                                                :
+                                                <Typography component="h1" variant="h6" sx={{ mt: 2 }}>
+                                                    {userData.name} (Usuario)
+                                                </Typography>
+                                        }
                                     </Grid>
                                     <Grid item >
                                         <Box sx={{ flexGrow: 0 }}>
