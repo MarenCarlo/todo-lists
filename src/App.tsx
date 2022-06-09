@@ -84,7 +84,7 @@ function App() {
     if ((user.user !== '' && user.user !== undefined) || (user.password !== '' && user.password !== undefined)) {
       callApi(user, setUser, userData, setUserData, loginErrors, setLoginErrors, isLogged, setLogged, isAdmin, setAdmin);
     }
-    if ((localStorage.getItem('userData') === null) && (location.pathname === '/Home')) {
+    if ((localStorage.getItem('userData') === null) && (location.pathname === '/task_list')) {
       Logout_Clear_States(setAdmin, setLogged, setUserData, setLoginErrors);
     }
     if (userData.id === 0 && isLogged === true) {
@@ -111,9 +111,14 @@ function App() {
               <UserDataContext.Provider value={userData}>
                 <ProtectedRoutesNavigation />
                 <Routes>
-                  <Route path="/" element={<Navigate to="/Home" replace />} />
-                  <Route path="/Home" element={<Home />} />
-                  <Route path="/Home2" element={<Home2 />} />
+                  <Route path="/" element={<Navigate to="/task_list" replace />} />
+                  <Route path="/task_list" element={<Home />} />
+                  {
+                    userData.isAdmin ?
+                      <Route path="/users_task_list" element={<Home2 />} />
+                      :
+                      <Route path="/users_task_list" element={<Navigate to="/task_list" replace />} />
+                  }
                   <Route path="*" element={<Navigate to="/resource_not_found" replace />} />
                   <Route path="/resource_not_found" element={<Error404 />} />
                 </Routes>

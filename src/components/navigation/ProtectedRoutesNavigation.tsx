@@ -46,7 +46,7 @@ export default function ProtectedRoutesNavigation() {
     // This means that if you have nested routes like:
     // users, users/new, users/edit.
     // Then the order should be ['users/add', 'users/edit', 'users'].
-    const routeMatch = useRouteMatch(['/Home', '/Home2']);
+    const routeMatch = useRouteMatch(['/task_list', '/users_task_list']);
     const currentTab = routeMatch?.pattern?.path;
     // Termina config para ruteo dinamico
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -126,12 +126,12 @@ export default function ProtectedRoutesNavigation() {
                             {
                                 userData.isAdmin ?
                                     <Tabs value={currentTab} centered>
-                                        <Tab label="To Do" value="/Home" to="/Home" component={Link} />
-                                        <Tab label="Listas de Usuarios" value="/Home2" to="/Home2" component={Link} />
+                                        <Tab label="To Do" value="/task_list" to="/task_list" component={Link} />
+                                        <Tab label="Listas de Usuarios" value="/users_task_list" to="/users_task_list" component={Link} />
                                     </Tabs>
                                     :
                                     <Tabs value={currentTab} centered>
-                                        <Tab label="To Do" value="/Home" to="/Home" component={Link} />
+                                        <Tab label="To Do" value="/task_list" to="/task_list" component={Link} />
                                     </Tabs>
                             }
                         </Box>
