@@ -167,7 +167,7 @@ function App() {
     <ThemeProvider theme={Theme}>
       <>
         <Routes>
-          <Route path="/Home" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
           <Route path="/" element={
             <Login
               user={user}
@@ -178,8 +178,6 @@ function App() {
               setLoginErrors={setLoginErrors}
             />
           } />
-          <Route path="*" element={<Navigate to="/resource_not_found" replace />} />
-          <Route path="/resource_not_found" element={<Error404 />} />
         </Routes>
       </>
     </ThemeProvider>

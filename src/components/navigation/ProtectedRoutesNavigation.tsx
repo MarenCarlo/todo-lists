@@ -54,10 +54,13 @@ export default function ProtectedRoutesNavigation() {
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget);
     };
+    const handleClickLogout = (event: React.MouseEvent<HTMLElement>) => {
+        Logout();
+    };
+
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
-        Logout();
     };
     // Termina Config para boton menu
 
@@ -109,7 +112,7 @@ export default function ProtectedRoutesNavigation() {
                                                 open={Boolean(anchorElUser)}
                                                 onClick={handleCloseUserMenu}
                                             >
-                                                <MenuItem onClick={handleCloseUserMenu} >Cerrar Sesión</MenuItem>
+                                                <MenuItem onClick={handleClickLogout} >Cerrar Sesión</MenuItem>
                                             </Menu>
                                         </Box>
                                     </Grid>
