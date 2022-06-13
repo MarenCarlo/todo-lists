@@ -15,7 +15,6 @@ export interface UserData {
     name: string,
     email: string,
     username: string,
-    password: string,
     isAdmin: boolean
 };
 export interface Token {

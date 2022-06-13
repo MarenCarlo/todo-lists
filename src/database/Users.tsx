@@ -6,7 +6,6 @@ export const Users: UserData[] = [
         "name": "Mario Carbajal",
         "email": "marencarlo2112@gmail.com",
         "username": "MarenCarlo",
-        "password": "211216",
         "isAdmin": true
     },
     {
@@ -14,7 +13,6 @@ export const Users: UserData[] = [
         "name": "Carlos Carbajal",
         "email": "carlos@gmail.com",
         "username": "Carl's",
-        "password": "211216",
         "isAdmin": false
     },
     {
@@ -22,7 +20,6 @@ export const Users: UserData[] = [
         "name": "Sebastian Carbajal",
         "email": "sebastian@gmail.com",
         "username": "S'bast",
-        "password": "211216",
         "isAdmin": false
     }
 ]

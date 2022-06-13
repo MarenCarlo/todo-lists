@@ -15,6 +15,7 @@ import Error404 from './components/errors/Error404';
 // Interfaces Imports
 import { LoginErrors, User } from './components/interfaces/LoginProps';
 import { UserData, Token } from './components/interfaces/HomeProps';
+import { OwnTodoArray } from "./components/interfaces/OwnTodoProps";
 // MUI Components Imports
 import { ThemeProvider } from '@mui/material/styles';
 import { Theme } from './Theme'
@@ -22,12 +23,13 @@ import { Theme } from './Theme'
 import { callApi } from './shared/enviarDatos';
 import ProtectedRoutesNavigation from "./components/navigation/ProtectedRoutesNavigation";
 import { Logout_Clear_States } from "./shared/Logout";
-
+import CompletedTasks from "./components/home/Completed";
+import { getOwnTodoList } from "./shared/getOwnTodoList";
 
 export const UserDataContext = createContext(JSON.parse(localStorage.getItem('userData')!));
+export const OwnTodoDataContext = createContext(JSON.parse(localStorage.getItem('ownTodoArrayLS')!));
 
 function App() {
-
   /**
    * INICIA SECCION DE STATES
    */
@@ -52,10 +54,13 @@ function App() {
     name: '',
     email: '',
     username: '',
-    password: '',
     isAdmin: false
   });
 
+  /**
+   * Estado de lista de tareas para el usuario logueado.
+   */
+  const [ownTodoArray, setOwnTodo] = useState<OwnTodoArray>([]);
   /**
    * State loginErrors es el estado con el que se manejan todos los errores
    * al momento de intentar iniciar una sesión
@@ -88,17 +93,26 @@ function App() {
       Logout_Clear_States(setAdmin, setLogged, setUserData, setLoginErrors);
     }
     if (userData.id === 0 && isLogged === true) {
-      const userDataLS = JSON.parse(localStorage.getItem('userData')!)
+      const userDataLS = JSON.parse(localStorage.getItem('userData')!);
       setUserData({
         id: userDataLS[0].id,
         name: userDataLS[0].name,
         email: userDataLS[0].email,
         username: userDataLS[0].username,
-        password: 'Aca no hay nada que ver 7w7',
         isAdmin: true
       })
     }
-  }, [user, loginErrors, userData, isLogged, isAdmin, location.pathname]);
+    if (isLogged === true && localStorage.getItem('ownTodoArrayLS')! === null) {
+      getOwnTodoList(userData, setOwnTodo);
+    }
+    if (isLogged === true && localStorage.getItem('ownTodoArrayLS')! !== null && ownTodoArray.length === 0) {
+      const ownTodoArrayLocSt = JSON.parse(localStorage.getItem('ownTodoArrayLS')!);
+      setOwnTodo(ownTodoArrayLocSt);
+    } else if (isLogged === false && localStorage.getItem('ownTodoArrayLS')! !== null) {
+      localStorage.removeItem('ownTodoArrayLS');
+      setOwnTodo([]);
+    }
+  }, [user, loginErrors, userData, isLogged, isAdmin, location.pathname, ownTodoArray.length, ownTodoArray]);
   /**
    * INICIA SECCION DE VALIDACIONES AL INICIAR SESION
    */
@@ -109,19 +123,22 @@ function App() {
           <ThemeProvider theme={Theme}>
             <>
               <UserDataContext.Provider value={userData}>
-                <ProtectedRoutesNavigation />
-                <Routes>
-                  <Route path="/" element={<Navigate to="/task_list" replace />} />
-                  <Route path="/task_list" element={<Home />} />
-                  {
-                    userData.isAdmin ?
-                      <Route path="/users_task_list" element={<Home2 />} />
-                      :
-                      <Route path="/users_task_list" element={<Navigate to="/task_list" replace />} />
-                  }
-                  <Route path="*" element={<Navigate to="/resource_not_found" replace />} />
-                  <Route path="/resource_not_found" element={<Error404 />} />
-                </Routes>
+                <OwnTodoDataContext.Provider value={ownTodoArray}>
+                  <ProtectedRoutesNavigation />
+                  <Routes>
+                    <Route path="/" element={<Navigate to="/task_list" replace />} />
+                    <Route path="/task_list" element={<Home />} />
+                    {
+                      userData.isAdmin ?
+                        <Route path="/users_task_list" element={<Home2 />} />
+                        :
+                        <Route path="/users_task_list" element={<Navigate to="/task_list" replace />} />
+                    }
+                    <Route path="/completed_tasks" element={<CompletedTasks />} />
+                    <Route path="*" element={<Navigate to="/resource_not_found" replace />} />
+                    <Route path="/resource_not_found" element={<Error404 />} />
+                  </Routes>
+                </OwnTodoDataContext.Provider>
               </UserDataContext.Provider>
             </>
           </ThemeProvider>

@@ -35,7 +35,9 @@ export default function ProtectedRoutesNavigation() {
     const history = useNavigate();
 
     async function Logout() {
-        await localStorage.clear();
+        await localStorage.removeItem('admin');
+        await localStorage.removeItem('logged');
+        await localStorage.removeItem('userData');
         await history("/", { replace: true });
     };
 
@@ -46,7 +48,7 @@ export default function ProtectedRoutesNavigation() {
     // This means that if you have nested routes like:
     // users, users/new, users/edit.
     // Then the order should be ['users/add', 'users/edit', 'users'].
-    const routeMatch = useRouteMatch(['/task_list', '/users_task_list']);
+    const routeMatch = useRouteMatch(['/task_list', '/completed_tasks', '/users_task_list']);
     const currentTab = routeMatch?.pattern?.path;
     // Termina config para ruteo dinamico
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -125,13 +127,22 @@ export default function ProtectedRoutesNavigation() {
                             </Routes>
                             {
                                 userData.isAdmin ?
-                                    <Tabs value={currentTab} centered>
-                                        <Tab label="To Do" value="/task_list" to="/task_list" component={Link} />
-                                        <Tab label="Listas de Usuarios" value="/users_task_list" to="/users_task_list" component={Link} />
-                                    </Tabs>
+                                    <Container maxWidth="xl">
+                                        <Grid container direction="column" justifyContent="center" alignItems="center">
+                                            <Tabs value={currentTab}
+                                                variant="scrollable"
+                                                scrollButtons="auto"
+                                                aria-label="scrollable auto tabs example">
+                                                <Tab label="Mis Tareas" value="/task_list" to="/task_list" component={Link} />
+                                                <Tab label="Tareas de Usuarios" value="/users_task_list" to="/users_task_list" component={Link} />
+                                                <Tab label="Tareas Completadas" value="/completed_tasks" to="/completed_tasks" component={Link} />
+                                            </Tabs>
+                                        </Grid>
+                                    </Container>
                                     :
                                     <Tabs value={currentTab} centered>
-                                        <Tab label="To Do" value="/task_list" to="/task_list" component={Link} />
+                                        <Tab label="Mis Tareas" value="/task_list" to="/task_list" component={Link} />
+                                        <Tab label="Tareas Completadas" value="/completed_tasks" to="/completed_tasks" component={Link} />
                                     </Tabs>
                             }
                         </Box>
