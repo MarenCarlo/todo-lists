@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -7,11 +7,16 @@ import { useContext } from 'react'
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { Container, CssBaseline, Grid } from '@mui/material';
+import { Checkbox, Container, CssBaseline, FormControlLabel, FormGroup, Grid } from '@mui/material';
 
 export default function UserToDoList() {
     const userData = useContext(UserDataContext);
     const arrayTodoList = useContext(OwnTodoDataContext);
+    const [checked, setChecked] = useState(true);
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setChecked(event.target.checked);
+    };
     if (arrayTodoList.length > 0) {
         return (
             <Box>
@@ -20,7 +25,8 @@ export default function UserToDoList() {
                     <Grid container direction="row" justifyContent="space-between" alignItems="baseline" spacing={4}>
 
                         {
-                            arrayTodoList.map((todo: any, index: number) => {
+                            arrayTodoList.map((todo: any) => {
+                                const arrayTasks = todo.todo;
                                 return (
                                     <Grid component="div" key={todo.id} item xs={12} md={6} lg={4}>
                                         <Card sx={{ mt: 4 }}>
@@ -61,9 +67,22 @@ export default function UserToDoList() {
                                             </CardContent>
                                             <hr></hr>
                                             <CardContent sx={{ ml: 4 }}>
-                                                <Typography variant="body2">
-                                                    (Acá iran las tareas.)
-                                                </Typography>
+                                                <FormGroup>
+                                                    {
+                                                        arrayTasks.map((task: any, index: number) => {
+                                                            return (
+                                                                <>
+                                                                    <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
+                                                                        <FormControlLabel
+                                                                            label={task.task}
+                                                                            control={<Checkbox checked={task.checked} onChange={handleChange} />}
+                                                                        />
+                                                                    </Box>
+                                                                </>
+                                                            )
+                                                        })
+                                                    }
+                                                </FormGroup>
                                             </CardContent>
                                             <hr></hr>
                                             <Grid container direction="row" justifyContent="center" alignItems="baseline" spacing={2}>

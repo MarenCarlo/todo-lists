@@ -89,7 +89,7 @@ function App() {
     if ((user.user !== '' && user.user !== undefined) || (user.password !== '' && user.password !== undefined)) {
       callApi(user, setUser, userData, setUserData, loginErrors, setLoginErrors, isLogged, setLogged, isAdmin, setAdmin);
     }
-    if ((localStorage.getItem('userData') === null) && (location.pathname === '/task_list')) {
+    if ((localStorage.getItem('userData') === null) && (location.pathname === '/task_list' || location.pathname === '/users_task_list' || location.pathname === '/completed_tasks')) {
       Logout_Clear_States(setAdmin, setLogged, setUserData, setLoginErrors);
     }
     if (userData.id === 0 && isLogged === true) {
