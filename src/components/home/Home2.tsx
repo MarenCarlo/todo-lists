@@ -7,8 +7,8 @@ const Home2 = () => {
     return (
         <Container component="main" maxWidth="xs" sx={{ mt: 10 }}>
             <CssBaseline />
-            <Typography component="h6" sx={{ mt: 5, textAlign: 'center' }}>
-                Bienvenido a Home2!!: {userData.name}
+            <Typography component="h5" sx={{ mt: 10, textAlign: 'center' }}>
+                Bienvenido a Home!!: {userData.name}
             </Typography>
         </Container>
     )

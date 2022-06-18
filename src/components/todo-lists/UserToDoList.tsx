@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useReducer } from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -9,21 +9,51 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Checkbox, Container, CssBaseline, FormControlLabel, FormGroup, Grid } from '@mui/material';
 
+/**
+ * 
+ * 
+ * DOCUMENTO QUE SE UTILIZARA DESPUES
+ * 
+ * 
+ */
+
+
 export default function UserToDoList() {
     const userData = useContext(UserDataContext);
     const arrayTodoList = useContext(OwnTodoDataContext);
     const [checked, setChecked] = useState(true);
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setChecked(event.target.checked);
-    };
+    const initialState = { checked };
+    type ActionType =
+        | { type: 'check' }
+        | { type: 'uncheck' }
+
+    const checkTasks = (state: typeof initialState, action: ActionType) => {
+
+        switch (action.type) {
+            case 'check':
+                return {
+                    ...state,
+                    checked: true
+                }
+            case 'uncheck':
+                return {
+                    ...state,
+                    checked: false
+                }
+            default:
+                return state;
+        }
+    }
+
+    const [checkState, dispatch] = useReducer(checkTasks, initialState);
+
     if (arrayTodoList.length > 0) {
         return (
             <Box>
                 <CssBaseline />
                 <Container maxWidth="xl" sx={{ mt: 6 }}>
                     <Grid container direction="row" justifyContent="space-between" alignItems="baseline" spacing={4}>
-
                         {
                             arrayTodoList.map((todo: any) => {
                                 const arrayTasks = todo.todo;
@@ -75,7 +105,7 @@ export default function UserToDoList() {
                                                                     <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
                                                                         <FormControlLabel
                                                                             label={task.task}
-                                                                            control={<Checkbox checked={task.checked} onChange={handleChange} />}
+                                                                            control={<Checkbox checked={task.checked} onClick={() => dispatch({ type: 'check' })} />}
                                                                         />
                                                                     </Box>
                                                                 </>

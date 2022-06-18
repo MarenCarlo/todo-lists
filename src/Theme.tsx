@@ -32,7 +32,7 @@ export const Theme = createTheme({
             contrastText: '#f1fffa',
         },
         success: {
-            main: '#50b554',
+            main: '#35AB55',
             contrastText: '#f1fffa',
         },
         text: {

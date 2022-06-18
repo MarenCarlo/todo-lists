@@ -5,7 +5,6 @@ import Box from '@mui/material/Box';
 import { useContext, Fragment, useState } from 'react'
 import { UserDataContext } from '../../App';
 import { matchPath, Outlet, Link, useLocation, Route, Routes, useNavigate } from 'react-router-dom';
-//import { Logout } from '../../shared/Logout';
 import { AppBar, Container, CssBaseline, Grid, IconButton, Menu, MenuItem, Toolbar, Tooltip } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
@@ -48,7 +47,7 @@ export default function ProtectedRoutesNavigation() {
     // This means that if you have nested routes like:
     // users, users/new, users/edit.
     // Then the order should be ['users/add', 'users/edit', 'users'].
-    const routeMatch = useRouteMatch(['/task_list', '/completed_tasks', '/users_task_list']);
+    const routeMatch = useRouteMatch(['/task_list', '/completed_tasks']);
     const currentTab = routeMatch?.pattern?.path;
     // Termina config para ruteo dinamico
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -76,16 +75,9 @@ export default function ProtectedRoutesNavigation() {
                             <Container maxWidth="xl">
                                 <Grid container direction="row" justifyContent="space-between" alignItems="baseline">
                                     <Grid item>
-                                        {
-                                            userData.isAdmin ?
-                                                <Typography component="h1" variant="h6" sx={{ mt: 2 }}>
-                                                    {userData.name} (Admin)
-                                                </Typography>
-                                                :
-                                                <Typography component="h1" variant="h6" sx={{ mt: 2 }}>
-                                                    {userData.name} (Usuario)
-                                                </Typography>
-                                        }
+                                        <Typography component="h1" variant="h6" sx={{ mt: 2 }}>
+                                            {userData.name}
+                                        </Typography>
                                     </Grid>
                                     <Grid item >
                                         <Box sx={{ flexGrow: 0 }}>
@@ -125,26 +117,10 @@ export default function ProtectedRoutesNavigation() {
                             <Routes>
                                 <Route path="*" element={<CurrentRoute />} />
                             </Routes>
-                            {
-                                userData.isAdmin ?
-                                    <Container maxWidth="xl">
-                                        <Grid container direction="column" justifyContent="center" alignItems="center">
-                                            <Tabs value={currentTab}
-                                                variant="scrollable"
-                                                scrollButtons="auto"
-                                                aria-label="scrollable auto tabs example">
-                                                <Tab label="Mis Tareas" value="/task_list" to="/task_list" component={Link} />
-                                                <Tab label="Tareas de Usuarios" value="/users_task_list" to="/users_task_list" component={Link} />
-                                                <Tab label="Tareas Completadas" value="/completed_tasks" to="/completed_tasks" component={Link} />
-                                            </Tabs>
-                                        </Grid>
-                                    </Container>
-                                    :
-                                    <Tabs value={currentTab} centered>
-                                        <Tab label="Mis Tareas" value="/task_list" to="/task_list" component={Link} />
-                                        <Tab label="Tareas Completadas" value="/completed_tasks" to="/completed_tasks" component={Link} />
-                                    </Tabs>
-                            }
+                            <Tabs value={currentTab} centered>
+                                <Tab label="Mis Tareas" value="/task_list" to="/task_list" component={Link} />
+                                <Tab label="Tareas Completadas" value="/completed_tasks" to="/completed_tasks" component={Link} />
+                            </Tabs>
                         </Box>
                     </AppBar>
                     <Toolbar />
@@ -159,3 +135,42 @@ export default function ProtectedRoutesNavigation() {
         </Typography>
     );
 }
+
+/**
+ * PARA DESPUES ;)
+ */
+// {
+//     userData.isAdmin ?
+//         <Container maxWidth="xl">
+//             <Grid container direction="column" justifyContent="center" alignItems="center">
+//                 <Tabs value={currentTab}
+//                     variant="scrollable"
+//                     scrollButtons="auto"
+//                     aria-label="scrollable auto tabs example">
+//                     <Tab label="Mis Tareas" value="/task_list" to="/task_list" component={Link} />
+//                     <Tab label="Tareas de Usuarios" value="/users_task_list" to="/users_task_list" component={Link} />
+//                     <Tab label="Tareas Completadas" value="/completed_tasks" to="/completed_tasks" component={Link} />
+//                 </Tabs>
+//             </Grid>
+//         </Container>
+//         :
+//         <Tabs value={currentTab} centered>
+//             <Tab label="Mis Tareas" value="/task_list" to="/task_list" component={Link} />
+//             <Tab label="Tareas Completadas" value="/completed_tasks" to="/completed_tasks" component={Link} />
+//         </Tabs>
+// }
+
+// {
+// <Grid item>
+//     {
+//         userData.isAdmin ?
+//             <Typography component="h1" variant="h6" sx={{ mt: 2 }}>
+//                 {userData.name} (Admin)
+//             </Typography>
+//             :
+//             <Typography component="h1" variant="h6" sx={{ mt: 2 }}>
+//                 {userData.name} (Usuario)
+//             </Typography>
+//     }
+// </Grid>
+// }

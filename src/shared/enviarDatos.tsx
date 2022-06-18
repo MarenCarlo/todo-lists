@@ -4,7 +4,6 @@
  */
 export const callApi = async (user: any, setUser: any, userData: any, setUserData: any, loginErrors: any, setLoginErrors: any,
     isLogged: boolean, setLogged: any, isAdmin: boolean, setAdmin: any) => {
-
     const userEmail: string = user.user;
     const userPass: string = user.password;
     setUser({
@@ -28,10 +27,6 @@ export const callApi = async (user: any, setUser: any, userData: any, setUserDat
         const userApiPass: string = resUser[0].password;
         if (userPass === userApiPass) {
             const userIsAdmin: boolean = resUser[0].isAdmin;
-            /**
-             * Romaguera-Crona es para validar para mientras si el usuario es de tipo
-             * Administrador
-             */
             if (userIsAdmin === true) {
                 setAdmin(true);
                 setLogged(true);
