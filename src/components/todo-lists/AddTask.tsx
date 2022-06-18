@@ -31,7 +31,7 @@ export const AddTask = ({ newTask, setNewTask, ownTodoArray }: TaskProps) => {
                                 margin="normal"
                                 name="add_todo"
                                 id="add_todo"
-                                required
+                                required={true}
                                 fullWidth
                                 autoFocus
                                 label="Agregar Tarea"

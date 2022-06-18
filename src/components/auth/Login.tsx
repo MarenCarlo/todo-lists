@@ -27,7 +27,7 @@ const Login = ({ setUser, loginErrors }: LoginProps) => {
                 <CssBaseline />
                 <Box
                     sx={{
-                        marginTop: '20vh',
+                        marginTop: '10vh',
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
@@ -36,19 +36,19 @@ const Login = ({ setUser, loginErrors }: LoginProps) => {
                     <Typography component="h1" variant="h5" sx={{ color: '#464E47' }}>
                         To-Do List
                     </Typography>
-                    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 2 }}>
                         <TextField
                             margin="normal"
-                            required
+                            required={true}
                             fullWidth
                             id="user"
-                            label="Usuario"
+                            label="Email"
                             name="user"
                             autoFocus
                         />
                         <TextField
                             margin="normal"
-                            required
+                            required={true}
                             fullWidth
                             name="password"
                             label="Contraseña"

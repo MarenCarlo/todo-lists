@@ -16,16 +16,21 @@ import Error404 from './components/errors/Error404';
 import { LoginErrors, User } from './components/interfaces/LoginProps';
 import { UserData, Token } from './components/interfaces/HomeProps';
 import { TaskData, OwnTodoArray } from "./components/interfaces/TaskProps";
+import { RegisterErrors, UserDataRegister } from "./components/interfaces/RegisterProps";
 // MUI Components Imports
 import { ThemeProvider } from '@mui/material/styles';
 import { Theme } from './Theme'
 // import functions
 import { callApi } from './shared/enviarDatos';
-import ProtectedRoutesNavigation from "./components/navigation/ProtectedRoutesNavigation";
-import { Logout_Clear_States } from "./shared/Logout";
 import CompletedTasks from "./components/home/Completed";
+import { Logout_Clear_States } from "./shared/Logout";
 import { getOwnTodoList } from "./shared/getOwnTodoList";
-import { newTaskPOSTApi } from "./shared/newTaskPOSTApi";
+import { NewTaskPOSTApi } from "./shared/newTaskPOSTApi";
+import { Register } from "./components/auth/Register";
+import UnloggedNavigation from "./components/navigation/UnloggedNavigation";
+import ProtectedRoutesNavigation from "./components/navigation/ProtectedRoutesNavigation";
+import { registerUser } from "./shared/registerUser";
+
 
 export const UserDataContext = createContext(JSON.parse(localStorage.getItem('userData')!));
 export const OwnTodoDataContext = createContext(JSON.parse(localStorage.getItem('ownTodoArrayLS')!));
@@ -59,6 +64,22 @@ function App() {
   });
 
   /**
+   * State userDataRegister, data del usuario que se registra
+   */
+  const [userDataRegister, setUserDataRegister] = useState<UserDataRegister>({
+    name: '',
+    email: '',
+    password: '',
+    username: '',
+    isAdmin: false
+  });
+
+  const [registerErrors, setRegisterErrors] = useState<RegisterErrors>({
+    message: ''
+  });
+
+
+  /**
    * Estado de lista de tareas para el usuario logueado.
    */
   const [ownTodoArray, setOwnTodo] = useState<OwnTodoArray>([]);
@@ -78,6 +99,7 @@ function App() {
   const [loginErrors, setLoginErrors] = useState<LoginErrors>({
     message: ''
   });
+
   /**
    * State isLogged es el estado que se utiliza para validar si se muestra el login
    * o nuestras rutas protegidas
@@ -101,7 +123,7 @@ function App() {
    */
   useEffect(() => {
     if (newTask.task !== '' && newTask.idUserOwner > 0 && isLogged === true) {
-      newTaskPOSTApi(newTask, setNewTask);
+      NewTaskPOSTApi(newTask, setNewTask);
       getOwnTodoList(userData, setOwnTodo);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -117,6 +139,22 @@ function App() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
+
+  /**
+   * useEffect que valida si han ingresado un name, email, user o pass en los inputs, 
+   * para ejecutar la funcion de registerUser();
+   */
+  useEffect(() => {
+    if ((userDataRegister.name !== '' && userDataRegister.name !== undefined)
+      && (userDataRegister.email !== '' && userDataRegister.email !== undefined)
+      && (userDataRegister.password !== '' && userDataRegister.password !== undefined)
+      && (userDataRegister.password !== '' && userDataRegister.password !== undefined)
+      && (userDataRegister.username !== '' && userDataRegister.username !== undefined)
+      && (userDataRegister.isAdmin === false)) {
+      registerUser(userDataRegister, setUserDataRegister, registerErrors, setRegisterErrors);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userDataRegister]);
 
   /**
     * Condicional que se ejecuta para obtener la data de las Tareas desde la API
@@ -259,6 +297,7 @@ function App() {
   return (
     <ThemeProvider theme={Theme}>
       <>
+        <UnloggedNavigation />
         <Routes>
           <Route path="*" element={<Navigate to="/" replace />} />
           <Route path="/" element={
@@ -271,6 +310,14 @@ function App() {
               setLoginErrors={setLoginErrors}
             />
           } />
+          <Route path="/Register" element={
+            <Register
+              userDataRegister={userDataRegister}
+              setUserDataRegister={setUserDataRegister}
+              registerErrors={registerErrors}
+              setRegisterErrors={setRegisterErrors}
+            />}
+          />
         </Routes>
       </>
     </ThemeProvider>

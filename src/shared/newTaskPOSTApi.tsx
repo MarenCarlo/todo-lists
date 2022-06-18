@@ -1,7 +1,7 @@
 /**
  * Funcion de POST para Agregar Tarea.
  */
-export const newTaskPOSTApi = async (newTask: any, setNewTask: any) => {
+export const NewTaskPOSTApi = async (newTask: any, setNewTask: any) => {
     let jsonData: any = JSON.stringify(newTask);
     await fetch('https://62a4098a259aba8e10e13872.mockapi.io/to-do/todos', {
         method: 'POST',
